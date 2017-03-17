@@ -15,8 +15,7 @@ All API enpoints can be reached using the following URL format:
 https://ryde-dev.herokuapp.com/api/json/:endpoint
 ```
 
-### Responses
-Example structure of successful request:
+### Success Response Format
 ```
 {
 	"meta": {
@@ -27,7 +26,7 @@ Example structure of successful request:
 	}
 }
 ```
-An example error response:
+### Error Response Format
 ```
 {
 	"meta": {
@@ -39,21 +38,21 @@ An example error response:
 ```
 
 ### Endpoints
-The Ryde API provides the following endpoint.
+Only one for now.
 
 #### Recent Rides
 The `recentRides` endpoint is used to fetch a user's rides. The request will succeed as long as the user has no unsaved trips. If the user does have unsaved trips the server will return an error with code 10. This is the only request that will return code 10 so you can use the code to identify this error case.
 
 ##### Parameters
-`auth_token`: Required. Must be passed with every request to the Ryde Public API. Retreive an `auth_token` through the OAuth2 flow.
+`auth_token`: Required. Must be passed with every request to the Ryde Public API. Obtain an `auth_token` through the OAuth2 flow.
 
 `date`: Required. The request will return all Rides where the `arrivalTime` is after `date`. This parameter will accept any [ISO 8601 formatted date](https://momentjs.com/docs/#/parsing/string/).
 
 ##### Example Request
-`https://ryde-dev.herokuapp.com/api/json/recentRides?access_token=57NX2540PKi6U6QJnqmTEkAESWnOeu7w&date=2017-03-16T21:32:21.852Z`
+```https://ryde-dev.herokuapp.com/api/json/recentRides?access_token=57NX2540PKi6U6QJnqmTEkAESWnOeu7w&date=2017-03-16T21:32:21.852Z```
 
 ##### Example Response
-Please note the `mostRecentRide` timestamp. It contains the `arrivalTime` of the most recent ride in the list of rides. Store this timestamp in your database for use next time you call `recentRides`.
+Please note the `mostRecentRide` timestamp. It contains the `arrivalTime` of the most recent ride in the list of `rides`. Store this timestamp in your database for use next time you call `recentRides`.
 ```
 {
 	"meta": {
@@ -136,20 +135,26 @@ The `recentRides` endpoint will return an error if it is called and the user has
 For testing against the development server please use the following authorization tokens:
 
 ### test1 User Account
-**Auth Token:** `57NX2540PKi6U6QJnqmTEkAESWnOeu7w` 
-**Oldest Ride Timestamp:** `2017-03-16T21:33:49.506Z` 
-**Most Recent Ride Timestamp:** `2017-03-16T21:35:03.487Z` 
-**Number of Unsaved Trips:** `0` 
-**Total Number of Rides:** `3` 
-**Example Request:** `https://ryde-dev.herokuapp.com/api/json/recentRides?access_token=57NX2540PKi6U6QJnqmTEkAESWnOeu7w&date=2017-03-16T21:32:21.852Z` 
+**Auth Token:** `57NX2540PKi6U6QJnqmTEkAESWnOeu7w`
+**Oldest Ride Timestamp:** `2017-03-16T21:33:49.506Z`
+**Most Recent Ride Timestamp:** `2017-03-16T21:35:03.487Z`
+**Number of Unsaved Trips:** `0`
+**Total Number of Rides:** `3`
+**Example Request:** `https://ryde-dev.herokuapp.com/api/json/recentRides?access_token=57NX2540PKi6U6QJnqmTEkAESWnOeu7w&date=2017-03-16T21:32:21.852Z`
 **Notes:** The above request will return 2 of the user's 3 rides. Change the timestamp to an earlier time to return all 3.
 
 ### test2 User Account
-**Auth Token:** `394L7Sh6cZuA5MP46s9wQQ3eVoTLz7Tm` 
-**Oldest Ride Timestamp:** `2017-03-16T21:32:21.852Z` 
-**Most Recent Ride Timestamp:** `2017-03-16T21:23:48.661Z` 
-**Number of Unsaved Trips:** `1` 
-**Total Number of Rides:** `2` 
-**Example Request:** `https://ryde-dev.herokuapp.com/api/json/recentRides?access_token=394L7Sh6cZuA5MP46s9wQQ3eVoTLz7Tm&date=2017-03-16T21:32:21.852Z` 
+**Auth Token:** `394L7Sh6cZuA5MP46s9wQQ3eVoTLz7Tm`
+
+**Oldest Ride Timestamp:** `2017-03-16T21:32:21.852Z`
+
+**Most Recent Ride Timestamp:** `2017-03-16T21:23:48.661Z`
+
+**Number of Unsaved Trips:** `1`
+
+**Total Number of Rides:** `2`
+
+**Example Request:** `https://ryde-dev.herokuapp.com/api/json/recentRides?access_token=394L7Sh6cZuA5MP46s9wQQ3eVoTLz7Tm&date=2017-03-16T21:32:21.852Z`
+
 **Notes:** The above request will always return an error because the user has 1 unsaved trip.
 
