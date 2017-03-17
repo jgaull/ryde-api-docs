@@ -1,20 +1,22 @@
 # Ryde Public API
-Ryde is an app that utilzes low power, always on location tracking to record all of a user's travel. User's then categorize their trips as either "by bike" or "not by bike". The Ryde public API gives developers access to trips marked as "by bike".
+Ryde is an app that utilizes low power, always on location tracking to record all of a user's travel. User's then categorize their trips as either "by bike" or "not by bike". The Ryde public API gives developers access to trips marked as "by bike".
 
 ## Registering A Client
 An API Client is an application created by a developer that is designed to consume data provided by the Ryde Public API. At this time API credentials are provided on an as-needed basis. If you're interested in integrating with the Ryde Public API [contact us](http://www.modeo.co/contact).
 
 ## Authentication
-The Ryde Public API will use OAuth2 for authentication. More details to come.a
+The Ryde Public API will use OAuth2 for authentication. More details to come.
 
 ## Making Requests
 At this time the Ryde development server hosts the only available endpoint. The base url for the ryde development server is `https://ryde-dev.herokuapp.com/`.
 
 All API enpoints can be reached using the following URL format:
-`https://ryde-dev.herokuapp.com/api/json/:endpoint`
+```
+https://ryde-dev.herokuapp.com/api/json/:endpoint
+```
 
 ### Responses
-Every response follows the following structure
+Example structure of successful request:
 ```
 {
 	"meta": {
@@ -25,7 +27,7 @@ Every response follows the following structure
 	}
 }
 ```
-An error response looks like this
+An example error response:
 ```
 {
 	"meta": {
@@ -40,7 +42,7 @@ An error response looks like this
 The Ryde API provides the following endpoint.
 
 #### Recent Rides
-The `recentRides` endpoint is used to fetch rides that have been approved by the user and marked as "by bike". The request will succeed as long as the user has no unsaved trips. If the user does have unsaved trips the server will return an error with code 10. This is the only request that will return code 10 so you can use the code to determine how to message the user.
+The `recentRides` endpoint is used to fetch a user's rides. The request will succeed as long as the user has no unsaved trips. If the user does have unsaved trips the server will return an error with code 10. This is the only request that will return code 10 so you can use the code to identify this error case.
 
 ##### Parameters
 `auth_token`: Required. Must be passed with every request to the Ryde Public API. Retreive an `auth_token` through the OAuth2 flow.
@@ -48,7 +50,7 @@ The `recentRides` endpoint is used to fetch rides that have been approved by the
 `date`: Required. The request will return all Rides where the `arrivalTime` is after `date`. This parameter will accept any [ISO 8601 formatted date](https://momentjs.com/docs/#/parsing/string/).
 
 ##### Example Request
-`https://ryde-dev.herokuapp.com/api/json/recentRides?access_token=<a token>&date=2016-10-14T20:40:30.973Z`
+`https://ryde-dev.herokuapp.com/api/json/recentRides?access_token=57NX2540PKi6U6QJnqmTEkAESWnOeu7w&date=2017-03-16T21:32:21.852Z`
 
 ##### Example Response
 Please note the `mostRecentRide` timestamp. It contains the `arrivalTime` of the most recent ride in the list of rides. Store this timestamp in your database for use next time you call `recentRides`.
@@ -60,8 +62,9 @@ Please note the `mostRecentRide` timestamp. It contains the `arrivalTime` of the
 	"data": {
 		"mostRecentRide": "2017-03-16T21:33:19.163Z"
 		"rides": [{
-			"pointSources": [{
-				"type": 0,
+			"totalPoints": 196,
+			"pointSources": [{ //a breakdown of the user's score for this ride
+				"type": 0, //At this time type 0 is the only supported type.
 				"key": "tripPoints",
 				"value": 100
 			}, {
@@ -74,7 +77,7 @@ Please note the `mostRecentRide` timestamp. It contains the `arrivalTime` of the
 				"value": 35
 			}],
 			"arrivalTime": "2017-03-16T21:33:19.163Z",
-			"approvedAt": "2017-03-16T21:35:03.487Z",
+			"approvedAt": "2017-03-16T21:35:03.487Z", //the time the user approved their trip
 			"startDestination": {
 				"coordinate": {
 					"lat": 37.7737866,
@@ -95,24 +98,23 @@ Please note the `mostRecentRide` timestamp. It contains the `arrivalTime` of the
 				"updatedAt": "2017-03-16T21:35:03.312Z",
 				"objectId": "SifMFMN0PG"
 			},
-			"totalPoints": 196,
 			"creator": {
 				"timeZone": "America/Los_Angeles",
 				"totalPoints": 523,
-				"totalDistance": 13389,
+				"totalDistance": 13389, //in meters
 				"numRides": 3,
-				"totalDuration": 75.28,
+				"totalDuration": 75.28, //in seconds
 				"name": "Test1",
 				"createdAt": "2017-03-16T21:05:26.114Z",
 				"updatedAt": "2017-03-16T21:35:36.205Z",
 				"mostRecentRide": "2017-03-16T21:32:42.327Z",
 				"website": "",
 				"bio": "This account has a couple of rides.",
-				"objectId": "sAdnGOFL3G"
+				"objectId": "sAdnGOFL3G" //unique identifier for the user
 			},
-			"distance": 5326,
-			"duration": 28.343,
-			"objectId": "Vgw4Msc7dW"
+			"distance": 5326, //in meters
+			"duration": 28.343, //in seconds
+			"objectId": "Vgw4Msc7dW" //unique identifier for the ride
 		}]
 	}
 }
@@ -134,20 +136,20 @@ The `recentRides` endpoint will return an error if it is called and the user has
 For testing against the development server please use the following authorization tokens:
 
 ### test1 User Account
-**Auth Token:** `57NX2540PKi6U6QJnqmTEkAESWnOeu7w`
-**Oldest Ride Timestamp:** `2017-03-16T21:33:49.506Z`
-**Most Recent Ride Timestamp:** `2017-03-16T21:35:03.487Z`
-**Number of Unsaved Trips:** `0`
-**Total Number of Rides:** `3`
-**Example Request:** `https://ryde-dev.herokuapp.com/api/json/recentRides?access_token=57NX2540PKi6U6QJnqmTEkAESWnOeu7w&date=2017-03-16T21:32:21.852Z`
+**Auth Token:** `57NX2540PKi6U6QJnqmTEkAESWnOeu7w` 
+**Oldest Ride Timestamp:** `2017-03-16T21:33:49.506Z` 
+**Most Recent Ride Timestamp:** `2017-03-16T21:35:03.487Z` 
+**Number of Unsaved Trips:** `0` 
+**Total Number of Rides:** `3` 
+**Example Request:** `https://ryde-dev.herokuapp.com/api/json/recentRides?access_token=57NX2540PKi6U6QJnqmTEkAESWnOeu7w&date=2017-03-16T21:32:21.852Z` 
 **Notes:** The above request will return 2 of the user's 3 rides. Change the timestamp to an earlier time to return all 3.
 
 ### test2 User Account
-**Auth Token:** `394L7Sh6cZuA5MP46s9wQQ3eVoTLz7Tm`
-**Oldest Ride Timestamp:** `2017-03-16T21:32:21.852Z`
-**Most Recent Ride Timestamp:** `2017-03-16T21:23:48.661Z`
-**Number of Unsaved Trips:** `1`
-**Total Number of Rides:** `2`
-**Example Request:** `https://ryde-dev.herokuapp.com/api/json/recentRides?access_token=394L7Sh6cZuA5MP46s9wQQ3eVoTLz7Tm&date=2017-03-16T21:32:21.852Z`
+**Auth Token:** `394L7Sh6cZuA5MP46s9wQQ3eVoTLz7Tm` 
+**Oldest Ride Timestamp:** `2017-03-16T21:32:21.852Z` 
+**Most Recent Ride Timestamp:** `2017-03-16T21:23:48.661Z` 
+**Number of Unsaved Trips:** `1` 
+**Total Number of Rides:** `2` 
+**Example Request:** `https://ryde-dev.herokuapp.com/api/json/recentRides?access_token=394L7Sh6cZuA5MP46s9wQQ3eVoTLz7Tm&date=2017-03-16T21:32:21.852Z` 
 **Notes:** The above request will always return an error because the user has 1 unsaved trip.
 
