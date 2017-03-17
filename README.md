@@ -136,19 +136,31 @@ For testing against the development server please use the following authorizatio
 
 ### test1 User Account
 **Auth Token:** `57NX2540PKi6U6QJnqmTEkAESWnOeu7w`
+
 **Oldest Ride Timestamp:** `2017-03-16T21:33:49.506Z`
+
 **Most Recent Ride Timestamp:** `2017-03-16T21:35:03.487Z`
+
 **Number of Unsaved Trips:** `0`
+
 **Total Number of Rides:** `3`
+
 **Example Request:** `https://ryde-dev.herokuapp.com/api/json/recentRides?access_token=57NX2540PKi6U6QJnqmTEkAESWnOeu7w&date=2017-03-16T21:32:21.852Z`
+
 **Notes:** The above request will return 2 of the user's 3 rides. Change the timestamp to an earlier time to return all 3.
 
 ### test2 User Account
-**Auth Token:** `394L7Sh6cZuA5MP46s9wQQ3eVoTLz7Tm`	
-**Oldest Ride Timestamp:** `2017-03-16T21:32:21.852Z`	
-**Most Recent Ride Timestamp:** `2017-03-16T21:23:48.661Z`	
-**Number of Unsaved Trips:** `1`	
-**Total Number of Rides:** `2`	
-**Example Request:** `https://ryde-dev.herokuapp.com/api/json/recentRides?access_token=394L7Sh6cZuA5MP46s9wQQ3eVoTLz7Tm&date=2017-03-16T21:32:21.852Z`	
-**Notes:** The above request will always return an error because the user has 1 unsaved trip.	
+**Auth Token:** `394L7Sh6cZuA5MP46s9wQQ3eVoTLz7Tm`
+
+**Oldest Ride Timestamp:** `2017-03-16T21:32:21.852Z`
+
+**Most Recent Ride Timestamp:** `2017-03-16T21:23:48.661Z`
+
+**Number of Unsaved Trips:** `1`
+
+**Total Number of Rides:** `2`
+
+**Example Request:** `https://ryde-dev.herokuapp.com/api/json/recentRides?access_token=394L7Sh6cZuA5MP46s9wQQ3eVoTLz7Tm&date=2017-03-16T21:32:21.852Z`
+
+**Notes:** The above request will always return an error because the user has 1 unsaved trip.
 
