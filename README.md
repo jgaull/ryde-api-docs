@@ -52,7 +52,7 @@ The `recentRides` endpoint is used to fetch a user's rides. The request will suc
 ```https://ryde-dev.herokuapp.com/api/json/recentRides?access_token=57NX2540PKi6U6QJnqmTEkAESWnOeu7w&date=2017-03-16T21:32:21.852Z```
 
 ##### Example Response
-Please note the `mostRecentRide` timestamp. It contains the `arrivalTime` of the most recent ride in the list of `rides`. Store this timestamp in your database for use next time you call `recentRides`.
+Rides are sorted from newest to oldest. Please note the `mostRecentRide` timestamp. It contains the `arrivalTime` of the most recent ride in the list of `rides`. Store this timestamp in your database for use next time you call `recentRides`.
 ```
 {
 	"meta": {
