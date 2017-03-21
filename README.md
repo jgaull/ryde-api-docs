@@ -227,3 +227,11 @@ For testing against the development server please use the following authorizatio
 
 **Notes:** The above request will always return an error because the user has 1 unsaved trip.
 
+### Revoke OAuth Token
+If you are testing the OAuth flow it may become necessary to revoke a previously granted OAuth Token. Use the following endpoint:
+```
+https://ryde-dev.herokuapp.com/api/revoke?access_token=ACCESS_TOKEN
+```
+
+
+
