@@ -12,14 +12,14 @@ In order to receive an access token you must do the following:
 
 1. Direct the user to our authorization url.
 	* If the user is not logged in, they will be asked to log in.
-	* The user will be asked if they would like to grant your application access to her Ryde data.
+	* The user will be asked if they would like to grant your application access to their Ryde data.
 2. The Ryde server will redirect the user to a URI of your choice. Take the provided `code` parameter and exchange it for an `access_token` by POSTing the `code` to our `access_token` url.
 
 ### Notes
 At this time the Ryde Public API only supports the Server-side (Explicit) Flow. This method is appropriate for any API client that utilizes its own backend. The Implicit Flow, which is better suited to applications that do not have a server, is on the roadmap for a future release.
 
 ### Important
-Do not assume your `access_token` is valid forever. Even though our access tokens do not specify an expiration time, your app should handle the case that either the user revokes access, or the Ryde Public API expires the token after some period of time. If the token is no longer valid, API responses will contain an “error_type=OAuthAccessTokenException”. In this case you will need to re-authenticate the user to obtain a new token.
+Do not assume your `access_token` is valid forever. Even though our access tokens do not specify an expiration time, your app should handle the case that either the user revokes access, or the Ryde Public API expires the token after some period of time. If the token is no longer valid, API responses will contain an `error_type=OAuthAccessTokenException`. In this case you will need to re-authenticate the user to obtain a new token.
 
 ### Server-Side (Explicit) Flow
 #### 1) Direct your user to our authorization URL
@@ -29,24 +29,24 @@ https://ryde-dev.herokuapp.com/api/dialog/authorize?response_type=code&client_id
 This will present the user with a login screen and then an authorization dialog. The user can choose to either allow or deny access to your app at this point.
 
 #### 2) Receive the redirect from the Ryde server
-After the user chooses to allow or deny your app we direct the user to the `redirect_uri` you supplied in step 1. If the user chose to allow your app the request will contain a `code` query parameter.
+After the user chooses to allow or deny your app we direct the user to the `redirect_uri` you supplied in step 1. If the user chose to allow your app the request will contain a `code` query parameter:
 ```
 http://your-redirect-uri?code=CODE
 ```
-If the user chooses to deny access you will receive an error instead:
+If the user chooses to deny access you will receive an error:
 ```
 http://your-redirect-uri?error=access_denied
 ```
 
-Please not that the `redirect_uri` you supply must match a redirect uri we have in our database for your app. If the `redirect_uri` does not match you will receive an error. Please contact us if you need to add `redirect_uris` to your app's configuration.
+Please not that the `redirect_uri` you supply must match a redirect uri we have in our database for your app. If the `redirect_uri` does not match you will receive an error. Please [contact us](http://www.modeo.co/contact) if you need to add `redirect_uris` to your app's configuration.
 ```
 http://your-redirect-uri?error=invalid_redirect_uri
 ```
 
 #### 3) Request the access_token
-Now you need to exchange the `code` you received in step 2 for an `access_token`. In order to make this exchange you have to POST the `code`, along with some app identification parameters, to our `access_token` endpoint. These are the required parameters:
+Now you need to exchange the `code` you received in step 2 for an `access_token`. In order to make this exchange you have to POST the `code`, along with some app identification parameters, to our `/api/oauth/token` endpoint. These are the required parameters:
 * __client_id:__ Your client id (provided by Modeo upon request)
-* __client_secret:__ Your client secret (provided by Modeo along with `client_id`)
+* __client_secret:__ Your client secret (provided by Modeo along with your client id)
 * __grant_type:__ `authorization_code` is currently the only supported value
 * __redirect_uri:__ The same `redirect_uri` you used in step 1
 * __code:__  The `code` you received during step 2
