@@ -10,17 +10,9 @@ The Ryde Public API utilizes the OAuth 2.0 protocol for authentication. OAuth 2.
 ### Obtaining and access_token
 In order to receive an access token you must do the following:
 
-1. First ordered list item
-2. Another item
-⋅⋅* Unordered sub-list. 
-1. Actual numbers don't matter, just that it's a number
-⋅⋅1. Ordered sub-list
-4. And another item.
-
 1. Direct the user to our authorization url.
-* Unordered sub-list.
-* If the user is not logged in, they will be asked to log in.
-* The user will be asked if they would like to grant your application access to her Ryde data.
+	* If the user is not logged in, they will be asked to log in.
+	* The user will be asked if they would like to grant your application access to her Ryde data.
 2. The Ryde server will redirect the user to a URI of your choice. Take the provided `code` parameter and exchange it for an `access_token` by POSTing the `code` to our `access_token` url.
 
 ### Notes
