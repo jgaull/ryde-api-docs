@@ -24,7 +24,7 @@ Do not assume your `access_token` is valid forever. Even though our access token
 ### Server-Side (Explicit) Flow
 #### 1) Direct your user to our authorization URL
 ```
-https://ryde-dev.herokuapp.com/api/dialog/authorize?response_type=code&client_id=<YOUR CLIENT ID>&redirect_uri=<YOUR REDIRECT URI>
+https://ryde-dev.herokuapp.com/api/authorize?response_type=code&client_id=<YOUR CLIENT ID>&redirect_uri=<YOUR REDIRECT URI>
 ```
 This will present the user with a login screen and then an authorization dialog. The user can choose to either allow or deny access to your app at this point.
 
@@ -44,7 +44,7 @@ http://your-redirect-uri?error=invalid_redirect_uri
 ```
 
 #### 3) Request the access_token
-Now you need to exchange the `code` you received in step 2 for an `access_token`. In order to make this exchange you have to POST the `code`, along with some app identification parameters, to our `/api/oauth/token` endpoint. These are the required parameters:
+Now you need to exchange the `code` you received in step 2 for an `access_token`. In order to make this exchange you have to POST the `code`, along with some app identification parameters, to our `/api/authorize/token` endpoint. These are the required parameters:
 * __client_id:__ Your client id (provided by Modeo upon request)
 * __client_secret:__ Your client secret (provided by Modeo along with your client id)
 * __grant_type:__ `authorization_code` is currently the only supported value
@@ -58,7 +58,7 @@ curl -F 'client_id=CLIENT_ID' \
     -F 'grant_type=authorization_code' \
     -F 'redirect_uri=REDIRECT_URI' \
     -F 'code=CODE' \
-    https://ryde-dev.herokuapp.com/api/oauth/token
+    https://ryde-dev.herokuapp.com/api/authorize/token
 ```
 
 If successful, this call will return an `access_token` that you can use to make authenticated calls to the API.
