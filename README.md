@@ -24,7 +24,7 @@ Do not assume your `access_token` is valid forever. Even though our access token
 ### Server-Side (Explicit) Flow
 #### 1) Direct your user to our authorization URL
 ```
-https://ryde-dev.herokuapp.com/api/authorize?response_type=code&client_id=<YOUR CLIENT ID>&redirect_uri=<YOUR REDIRECT URI>
+https://modeo-ryde-prod.herokuapp.com/api/authorize?response_type=code&client_id=<YOUR CLIENT ID>&redirect_uri=<YOUR REDIRECT URI>
 ```
 This will present the user with a login screen and then an authorization dialog. The user can choose to either allow or deny access to your app at this point.
 
@@ -58,7 +58,7 @@ curl -F 'client_id=CLIENT_ID' \
     -F 'grant_type=authorization_code' \
     -F 'redirect_uri=REDIRECT_URI' \
     -F 'code=CODE' \
-    https://ryde-dev.herokuapp.com/api/authorize/token
+    https://modeo-ryde-prod.herokuapp.com/api/authorize/token
 ```
 
 If successful, this call will return an `access_token` that you can use to make authenticated calls to the API.
@@ -71,11 +71,11 @@ If successful, this call will return an `access_token` that you can use to make 
 You are now ready to make requests to the Ryde Public API!
 
 ## Making Requests
-At this time the Ryde development server hosts the only available endpoint. The base url for the ryde development server is `https://ryde-dev.herokuapp.com/`.
+The base URL for the Ryde production server is `https://modeo-ryde-prod.herokuapp.com/`.
 
 All API enpoints can be reached using the following URL format:
 ```
-https://ryde-dev.herokuapp.com/api/json/:endpoint
+https://modeo-ryde-prod.herokuapp.com/api/json/:endpoint
 ```
 
 ### Success Response Format
@@ -112,7 +112,8 @@ The `recentRides` endpoint is used to fetch a user's rides. The request will suc
 `date`: Required. The request will return all Rides where the `arrivalTime` is after `date`. This parameter will accept any [ISO 8601 formatted date](https://momentjs.com/docs/#/parsing/string/).
 
 ##### Example Request
-```https://ryde-dev.herokuapp.com/api/json/recentRides?access_token=57NX2540PKi6U6QJnqmTEkAESWnOeu7w&date=2017-03-16T21:32:21.852Z```
+```https://modeo-ryde-prod.herokuapp.com/api/json/recentRides?access_token=57NX2540PKi6U6QJnqmTEkAESWnOeu7w&date=2017-03-16T21:32:21.852Z
+```
 
 ##### Example Response
 Rides are sorted from newest to oldest. Please note the `mostRecentRide` timestamp. It contains the `arrivalTime` of the most recent ride in the list of `rides`. Store this timestamp in your database for use next time you call `recentRides`.
@@ -230,7 +231,8 @@ For testing against the development server please use the following authorizatio
 ### Revoke OAuth Token
 If you are testing the OAuth flow it may become necessary to revoke a previously granted OAuth Token. Use the following endpoint:
 ```
-https://ryde-dev.herokuapp.com/api/revoke?access_token=ACCESS_TOKEN
+https://ryde-dev.herokuapp.com/api/revoke?access_token=ACCESS_TOKEN //development
+https://modeo-ryde-prod.herokuapp.com/api/revoke?access_token=ACCESS_TOKEN //production
 ```
 
 
