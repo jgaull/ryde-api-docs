@@ -53,11 +53,11 @@ Now you need to exchange the `code` you received in step 2 for an `access_token`
 
 Here is an example curl request to obtain a token:
 ```
-curl -F 'client_id=CLIENT_ID' \
-    -F 'client_secret=CLIENT_SECRET' \
-    -F 'grant_type=authorization_code' \
-    -F 'redirect_uri=REDIRECT_URI' \
-    -F 'code=CODE' \
+curl -d 'client_id=CLIENT_ID' \
+    -d 'client_secret=CLIENT_SECRET' \
+    -d 'grant_type=authorization_code' \
+    -d 'redirect_uri=REDIRECT_URI' \
+    -d 'code=CODE' \
     https://modeo-ryde-prod.herokuapp.com/api/authorize/token
 ```
 
